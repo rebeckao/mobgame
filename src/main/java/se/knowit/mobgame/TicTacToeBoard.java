@@ -1,9 +1,9 @@
 package se.knowit.mobgame;
 
-public class TicTacToe implements Board {
+public class TicTacToeBoard implements Board {
     private int[][] rawBoard;
 
-    public TicTacToe(BoardHeight height, BoardWidth width) {
+    public TicTacToeBoard(BoardHeight height, BoardWidth width) {
         rawBoard = new int[height.getValue()][];
         for (int i = 0; i < rawBoard.length; i++) {
             rawBoard[i] = new int[width.getValue()];
@@ -23,4 +23,9 @@ public class TicTacToe implements Board {
     private int getValueAt(Position position) {
         return rawBoard[position.getY().getValue()][position.getX().getValue()];
     }
+
+    void update(Position position, int playerId) {
+        rawBoard[position.getY().getValue()][position.getX().getValue()] = playerId;
+    }
+
 }
