@@ -4,9 +4,9 @@ public class TicTacToeBoard implements Board {
     private int[][] rawBoard;
 
     public TicTacToeBoard(BoardHeight height, BoardWidth width) {
-        rawBoard = new int[height.getValue()][];
+        rawBoard = new int[height.getValue() + 1][];
         for (int i = 0; i < rawBoard.length; i++) {
-            rawBoard[i] = new int[width.getValue()];
+            rawBoard[i] = new int[width.getValue() + 1];
         }
     }
 
@@ -20,7 +20,7 @@ public class TicTacToeBoard implements Board {
         return getValueAt(position) == 0;
     }
 
-    private int getValueAt(Position position) {
+    int getValueAt(Position position) {
         return rawBoard[position.getY().getValue()][position.getX().getValue()];
     }
 
@@ -28,4 +28,16 @@ public class TicTacToeBoard implements Board {
         rawBoard[position.getY().getValue()][position.getX().getValue()] = playerId;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        for (int i = 1; i < rawBoard.length; i++) {
+            int[] row = rawBoard[i];
+            for (int j = 1; j < row.length; j++) {
+                s.append(row[j]);
+            }
+            s.append("\n");
+        }
+        return s.toString();
+    }
 }
