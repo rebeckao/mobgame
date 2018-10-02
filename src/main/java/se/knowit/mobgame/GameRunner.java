@@ -7,10 +7,10 @@ public class GameRunner {
     private TicTacToeBoard board;
 
     public void playOneTurn() {
-        players.forEach(this::superMegaDance);
+        players.forEach(this::makeAMove);
     }
 
-    private void superMegaDance(Player player) {
+    private void makeAMove(Player player) {
         Position position = player.getBot().makeMove(board);
         boolean isValid = board.isMoveValid(position);
         if (isValid) {
