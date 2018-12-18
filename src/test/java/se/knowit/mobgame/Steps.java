@@ -1,5 +1,6 @@
 package se.knowit.mobgame;
 
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -17,7 +18,7 @@ public class Steps {
     private TicTacToeBoard ticTacToeBoard;
 
     @Given("^a board of size (\\d+) x (\\d+)$")
-    public void aBoardOfSizeX(int width, int height)  {
+    public void aBoardOfSizeX(int width, int height) {
         ticTacToeBoard = new TicTacToeBoard(BoardHeight.of(height), BoardWidth.of(width));
     }
 
@@ -39,5 +40,13 @@ public class Steps {
     public void thePlayerWins() {
         Assert.assertTrue("Game is not over", gameRunner.isGameWon());
 
+    }
+
+    @And("^a player that makes the following moves$")
+    public void aPlayerThatMakesTheFollowingMoves(List<TurnCoordinate> turnCoordinates) {
+        Queue<Position> positionsQueue = turnCoordinates.stream()
+                .map(coordinate -> new Position(XCoordinate.of(coordinate.getColumn()), YCoordinate.of(coordinate.getRow())))
+                .collect(Collectors.toCollection(LinkedList::new));
+        players.add(new Player(new TestBot(positionsQueue), 1));
     }
 }
