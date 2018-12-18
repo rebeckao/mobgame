@@ -46,6 +46,14 @@ public class GameRunner {
             }
         }
 
+        Position right = position.toRight();
+        if (board.getValueAt(right) == playerId) {
+            Position rightRight = right.toRight();
+            if (board.getValueAt(rightRight) == playerId) {
+                return true;
+            }
+        }
+
         return false;
     }
 

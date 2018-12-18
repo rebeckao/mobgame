@@ -21,6 +21,11 @@ public class TicTacToeBoard implements Board {
     }
 
     int getValueAt(Position position) {
+
+        if (!isInsideBoard(position)) {
+            return -1;
+        }
+
         return rawBoard[position.getY().getValue()][position.getX().getValue()];
     }
 
@@ -39,5 +44,12 @@ public class TicTacToeBoard implements Board {
             s.append("\n");
         }
         return s.toString();
+    }
+
+    private boolean isInsideBoard(Position position){
+        return position.getX().getValue() < this.rawBoard[0].length
+                && position.getY().getValue() < this.rawBoard.length
+                && position.getY().getValue() >= 0
+                && position.getX().getValue() >= 0;
     }
 }
