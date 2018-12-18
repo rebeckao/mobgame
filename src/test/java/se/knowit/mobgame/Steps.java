@@ -32,7 +32,7 @@ public class Steps {
     @When("^the game is played$")
     public void theGameIsPlayed() {
         gameRunner = new GameRunner(ticTacToeBoard, players);
-        gameRunner.playOneTurn();
+        gameRunner.run();
     }
 
     @Then("^the player wins$")

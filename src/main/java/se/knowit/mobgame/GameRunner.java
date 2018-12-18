@@ -12,6 +12,12 @@ public class GameRunner {
         this.players = players;
     }
 
+    public void run() {
+        while (!this.gameIsWon) {
+            playOneTurn();
+        }
+    }
+
     public void playOneTurn() {
         players.forEach(this::makeAMove);
     }
