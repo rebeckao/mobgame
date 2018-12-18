@@ -6,9 +6,10 @@ import cucumber.api.java.en.When;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
+import java.util.Queue;
+import java.util.stream.Collectors;
 
 public class Steps {
     private GameRunner gameRunner;
@@ -22,9 +23,9 @@ public class Steps {
 
     @Given("^a player that makes the following move on row 5$")
     public void aPlayerThatMakesTheFollowingMove(List<Integer> columnCoordinates) {
-        List<Position> positions = columnCoordinates.stream()
+        Queue<Position> positions = columnCoordinates.stream()
                 .map(columnCoordinate -> new Position(XCoordinate.of(columnCoordinate), YCoordinate.of(5)))
-                .collect(toList());
+                .collect(Collectors.toCollection(LinkedList::new));
         players.add(new Player(new TestBot(positions), 1));
     }
 

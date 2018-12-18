@@ -2,19 +2,18 @@ package se.knowit.mobgame;
 
 import se.knowit.mobgame.bot.Bot;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
 
 public class TestBot implements Bot {
 
-    private final List<Position> positions;
+    private final Queue<Position> positions;
 
-    TestBot(List<Position> positions) {
-        this.positions = new ArrayList<>(positions);
+    TestBot(Queue<Position> positions) {
+        this.positions = positions;
     }
 
     @Override
     public Position makeMove(Board state) {
-        return positions.get(0);
+        return positions.remove();
     }
 }
