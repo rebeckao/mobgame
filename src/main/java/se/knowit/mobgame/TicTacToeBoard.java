@@ -4,9 +4,9 @@ public class TicTacToeBoard implements Board {
     private int[][] rawBoard;
 
     public TicTacToeBoard(BoardHeight height, BoardWidth width) {
-        rawBoard = new int[height.getValue() + 1][];
+        rawBoard = new int[height.getValue()][];
         for (int i = 0; i < rawBoard.length; i++) {
-            rawBoard[i] = new int[width.getValue() + 1];
+            rawBoard[i] = new int[width.getValue()];
         }
     }
 
@@ -36,9 +36,9 @@ public class TicTacToeBoard implements Board {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        for (int i = 1; i < rawBoard.length; i++) {
+        for (int i = 0; i < rawBoard.length; i++) {
             int[] row = rawBoard[i];
-            for (int j = 1; j < row.length; j++) {
+            for (int j = 0; j < row.length; j++) {
                 s.append(row[j]);
             }
             s.append("\n");
