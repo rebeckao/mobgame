@@ -16,13 +16,17 @@ class GameRunner {
     }
 
     void run() {
-        while (!this.gameIsWon) {
+        while (!this.gameIsWon && hasPlayersLeft()) {
             playOneTurn();
         }
     }
 
     private void playOneTurn() {
         players.forEach(this::makeAMove);
+    }
+
+    private boolean hasPlayersLeft() {
+        return players.stream().anyMatch(player -> !player.isExpelled());
     }
 
     private void makeAMove(Player player) {
@@ -32,7 +36,8 @@ class GameRunner {
             board.update(position, player.getPlayerId());
             gameIsWon = gameIsWon(position, player);
         } else {
-            log.warn("move {} is invalid", position);
+            log.warn("Player {} is expelled due to invalid move {}", player.getPlayerId(), position);
+            player.setExpelled(true);
         }
     }
 

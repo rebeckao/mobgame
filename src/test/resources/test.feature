@@ -39,3 +39,11 @@ Feature: Test multi player tic tac toe
       | 4      | 0   |
     When the game is played
     Then the player wins
+
+  Scenario: Position outside board is invalid
+    Given a board of size 5 x 5
+    And a player that makes the following moves
+      | column | row |
+      | 5      | 5   |
+    When the game is played
+    Then the player is expelled

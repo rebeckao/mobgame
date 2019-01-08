@@ -4,13 +4,14 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertTrue;
 
 public class Steps {
     private GameRunner gameRunner;
@@ -38,7 +39,7 @@ public class Steps {
 
     @Then("^the player wins$")
     public void thePlayerWins() {
-        Assert.assertTrue("Game is not over", gameRunner.isGameWon());
+        assertTrue("Game is not over", gameRunner.isGameWon());
 
     }
 
@@ -48,5 +49,10 @@ public class Steps {
                 .map(coordinate -> new Position(XCoordinate.of(coordinate.getColumn()), YCoordinate.of(coordinate.getRow())))
                 .collect(Collectors.toCollection(LinkedList::new));
         players.add(new Player(new TestBot(positionsQueue), 1));
+    }
+
+    @Then("^the player is expelled$")
+    public void thePlayerIsExpelled() {
+        assertTrue(players.get(0).isExpelled());
     }
 }

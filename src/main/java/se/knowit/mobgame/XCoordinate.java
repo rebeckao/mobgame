@@ -1,5 +1,8 @@
 package se.knowit.mobgame;
 
+import lombok.ToString;
+
+@ToString
 public class XCoordinate {
     private int value;
 
