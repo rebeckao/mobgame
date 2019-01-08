@@ -3,7 +3,7 @@ package se.knowit.mobgame;
 public class TicTacToeBoard implements Board {
     private int[][] rawBoard;
 
-    public TicTacToeBoard(BoardHeight height, BoardWidth width) {
+    TicTacToeBoard(BoardHeight height, BoardWidth width) {
         rawBoard = new int[height.getValue()][];
         for (int i = 0; i < rawBoard.length; i++) {
             rawBoard[i] = new int[width.getValue()];
@@ -36,10 +36,9 @@ public class TicTacToeBoard implements Board {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        for (int i = 0; i < rawBoard.length; i++) {
-            int[] row = rawBoard[i];
-            for (int j = 0; j < row.length; j++) {
-                s.append(row[j]);
+        for (int[] row : rawBoard) {
+            for (int aRow : row) {
+                s.append(aRow);
             }
             s.append("\n");
         }
