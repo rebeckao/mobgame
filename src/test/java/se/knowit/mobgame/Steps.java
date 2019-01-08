@@ -11,7 +11,10 @@ import java.util.List;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static se.knowit.mobgame.PlayerStatus.EXPELLED;
+import static se.knowit.mobgame.PlayerStatus.WINNER;
 
 public class Steps {
     private GameRunner gameRunner;
@@ -40,7 +43,7 @@ public class Steps {
     @Then("^the player wins$")
     public void thePlayerWins() {
         assertTrue("Game is not over", gameRunner.isGameWon());
-
+        assertEquals(WINNER,players.get(0).getStatus());
     }
 
     @And("^a player that makes the following moves$")
@@ -53,6 +56,6 @@ public class Steps {
 
     @Then("^the player is expelled$")
     public void thePlayerIsExpelled() {
-        assertTrue(players.get(0).isExpelled());
+        assertEquals(EXPELLED, players.get(0).getStatus());
     }
 }

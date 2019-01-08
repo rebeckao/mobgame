@@ -10,12 +10,12 @@ public class Player {
 
     private Bot bot;
     private int playerId;
-    private boolean expelled;
+    private PlayerStatus status;
 
     public Player(Bot bot, int playerId) {
         this.bot = bot;
         this.playerId = playerId;
-        this.expelled = false;
+        this.status = PlayerStatus.PLAYING;
     }
 
 }

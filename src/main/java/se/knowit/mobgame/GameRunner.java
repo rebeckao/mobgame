@@ -4,6 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import static se.knowit.mobgame.PlayerStatus.EXPELLED;
+import static se.knowit.mobgame.PlayerStatus.PLAYING;
+import static se.knowit.mobgame.PlayerStatus.WINNER;
+
 @Slf4j
 class GameRunner {
     private List<Player> players;
@@ -26,7 +30,9 @@ class GameRunner {
     }
 
     private boolean hasPlayersLeft() {
-        return players.stream().anyMatch(player -> !player.isExpelled());
+        return players.stream()
+                .map(Player::getStatus)
+                .anyMatch(status -> status.equals(PLAYING));
     }
 
     private void makeAMove(Player player) {
@@ -35,9 +41,12 @@ class GameRunner {
         if (isValid) {
             board.update(position, player.getPlayerId());
             gameIsWon = gameIsWon(position, player);
+            if (gameIsWon) {
+                player.setStatus(WINNER);
+            }
         } else {
-            log.warn("Player {} is expelled due to invalid move {}", player.getPlayerId(), position);
-            player.setExpelled(true);
+            log.warn("Player {} is status due to invalid move {}", player.getPlayerId(), position);
+            player.setStatus(EXPELLED);
         }
     }
 
