@@ -1,24 +1,27 @@
 package se.knowit.mobgame;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 
-public class GameRunner {
+@Slf4j
+class GameRunner {
     private List<Player> players;
     private TicTacToeBoard board;
     private boolean gameIsWon;
 
-    public GameRunner(TicTacToeBoard board, List<Player> players)  {
+    GameRunner(TicTacToeBoard board, List<Player> players)  {
         this.board = board;
         this.players = players;
     }
 
-    public void run() {
+    void run() {
         while (!this.gameIsWon) {
             playOneTurn();
         }
     }
 
-    public void playOneTurn() {
+    private void playOneTurn() {
         players.forEach(this::makeAMove);
     }
 
@@ -28,6 +31,8 @@ public class GameRunner {
         if (isValid) {
             board.update(position, player.getPlayerId());
             gameIsWon = gameIsWon(position, player);
+        } else {
+            log.warn("move {} is invalid", position);
         }
     }
 
@@ -49,15 +54,13 @@ public class GameRunner {
         Position right = position.toRight();
         if (board.getValueAt(right) == playerId) {
             Position rightRight = right.toRight();
-            if (board.getValueAt(rightRight) == playerId) {
-                return true;
-            }
+            return board.getValueAt(rightRight) == playerId;
         }
 
         return false;
     }
 
-    public boolean isGameWon() {
+    boolean isGameWon() {
         return gameIsWon;
     }
 }
