@@ -16,3 +16,5 @@ Feature: Test multi player tic tac toe
       | 5      | 0   |
       | 5      | 1   |
       | 5      | 2   |
+    When the game is played
+    Then the player wins
