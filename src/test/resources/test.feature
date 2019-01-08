@@ -47,3 +47,12 @@ Feature: Test multi player tic tac toe
       | 5      | 5   |
     When the game is played
     Then the player is expelled
+
+  Scenario: Taken position is invalid
+    Given a board of size 5 x 5
+    And a player that makes the following moves
+      | column | row |
+      | 4      | 4   |
+      | 4      | 4   |
+    When the game is played
+    Then the player is expelled
