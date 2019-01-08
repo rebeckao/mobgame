@@ -39,7 +39,10 @@ class GameRunner {
     private boolean gameIsWon(Position position, Player player){
         System.out.println(board);
         int playerId = player.getPlayerId();
-        return hasWonHorizontally(position, playerId) || hasWonVertically(position, playerId);
+        return hasWonHorizontally(position, playerId)
+                || hasWonVertically(position, playerId)
+                || hasWonSlopingDiagonally(position, playerId)
+                || hasWonRisingDiagonally(position, playerId);
 
     }
 
@@ -64,8 +67,6 @@ class GameRunner {
             }
         }
         return false;
-
-
     }
 
     private boolean hasWonHorizontally(Position position, int playerId) {
@@ -85,6 +86,48 @@ class GameRunner {
         if (board.getValueAt(right) == playerId) {
             Position rightRight = right.toRight();
             return board.getValueAt(rightRight) == playerId;
+        }
+        return false;
+    }
+
+    private boolean hasWonSlopingDiagonally(Position position, int playerId) {
+        Position aboveLeft = position.toLeft().above();
+        if (board.getValueAt(aboveLeft) == playerId) {
+            Position aboveLeftAboveLeft = aboveLeft.toLeft().above();
+            if (board.getValueAt(aboveLeftAboveLeft) == playerId) {
+                return true;
+            }
+            Position belowRight = position.toRight().below();
+            if (board.getValueAt(belowRight) == playerId) {
+                return true;
+            }
+        }
+
+        Position belowRight = position.toRight().below();
+        if (board.getValueAt(belowRight) == playerId) {
+            Position belowRightBelowRight = belowRight.toRight().below();
+            return board.getValueAt(belowRightBelowRight) == playerId;
+        }
+        return false;
+    }
+
+    private boolean hasWonRisingDiagonally(Position position, int playerId) {
+        Position belowLeft = position.toLeft().below();
+        if (board.getValueAt(belowLeft) == playerId) {
+            Position belowLeftBelowLeft = belowLeft.toLeft().below();
+            if (board.getValueAt(belowLeftBelowLeft) == playerId) {
+                return true;
+            }
+            Position aboveRight = position.toRight().above();
+            if (board.getValueAt(aboveRight) == playerId) {
+                return true;
+            }
+        }
+
+        Position aboveRight = position.toRight().above();
+        if (board.getValueAt(aboveRight) == playerId) {
+            Position aboveRightAboveRight = aboveRight.toRight().above();
+            return board.getValueAt(aboveRightAboveRight) == playerId;
         }
         return false;
     }
