@@ -8,7 +8,7 @@ public class Position {
     private XCoordinate x;
     private YCoordinate y;
 
-    public Position(XCoordinate x, YCoordinate y) {
+    Position(XCoordinate x, YCoordinate y) {
         this.x = x;
         this.y = y;
     }
@@ -17,15 +17,23 @@ public class Position {
         return new Position(XCoordinate.of(x.getValue() - 1), y);
     }
 
-    public XCoordinate getX() {
+    Position toRight() {
+        return new Position(XCoordinate.of(x.getValue() + 1), y);
+    }
+
+    Position above() {
+        return new Position(x, YCoordinate.of(y.getValue() - 1));
+    }
+
+    Position below() {
+        return new Position(x, YCoordinate.of(y.getValue() + 1));
+    }
+
+    XCoordinate getX() {
         return x;
     }
 
-    public YCoordinate getY() {
+    YCoordinate getY() {
         return y;
-    }
-
-    public Position toRight() {
-        return new Position(XCoordinate.of(x.getValue() + 1), y);
     }
 }

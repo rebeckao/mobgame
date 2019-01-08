@@ -38,8 +38,38 @@ class GameRunner {
 
     private boolean gameIsWon(Position position, Player player){
         System.out.println(board);
-        Position left = position.toLeft();
         int playerId = player.getPlayerId();
+        return hasWonHorizontally(position, playerId) || hasWonVertically(position, playerId);
+
+    }
+
+    private boolean hasWonVertically(Position position, int playerId) {
+        Position above = position.above();
+        if (board.getValueAt(above) == playerId) {
+            Position aboveAbove = above.above();
+            if (board.getValueAt(aboveAbove) == playerId) {
+                return true;
+            }
+            Position below = position.below();
+            if (board.getValueAt(below) == playerId) {
+                return true;
+            }
+        }
+
+        Position below = position.below();
+        if (board.getValueAt(below) == playerId) {
+            Position belowBelow = below.below();
+            if (board.getValueAt(belowBelow) == playerId) {
+                return true;
+            }
+        }
+        return false;
+
+
+    }
+
+    private boolean hasWonHorizontally(Position position, int playerId) {
+        Position left = position.toLeft();
         if (board.getValueAt(left) == playerId) {
             Position leftLeft = left.toLeft();
             if (board.getValueAt(leftLeft) == playerId) {
@@ -56,7 +86,6 @@ class GameRunner {
             Position rightRight = right.toRight();
             return board.getValueAt(rightRight) == playerId;
         }
-
         return false;
     }
 
