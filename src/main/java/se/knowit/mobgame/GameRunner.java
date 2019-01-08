@@ -27,11 +27,11 @@ public class GameRunner {
         boolean isValid = board.isMoveValid(position);
         if (isValid) {
             board.update(position, player.getPlayerId());
-            gameIsWon = superMegaDance(position, player);
+            gameIsWon = gameIsWon(position, player);
         }
     }
 
-    private boolean superMegaDance(Position position, Player player){
+    private boolean gameIsWon(Position position, Player player){
         System.out.println(board);
         Position left = position.toLeft();
         int playerId = player.getPlayerId();
