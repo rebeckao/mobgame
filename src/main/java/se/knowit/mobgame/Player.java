@@ -6,13 +6,13 @@ import se.knowit.mobgame.bot.Bot;
 
 @Getter
 @Setter
-public class Player {
+class Player {
 
     private Bot bot;
     private int playerId;
     private PlayerStatus status;
 
-    public Player(Bot bot, int playerId) {
+    Player(Bot bot, int playerId) {
         this.bot = bot;
         this.playerId = playerId;
         this.status = PlayerStatus.PLAYING;

@@ -76,9 +76,7 @@ class GameRunner {
         Position below = position.below();
         if (board.getValueAt(below) == playerId) {
             Position belowBelow = below.below();
-            if (board.getValueAt(belowBelow) == playerId) {
-                return true;
-            }
+            return board.getValueAt(belowBelow) == playerId;
         }
         return false;
     }
