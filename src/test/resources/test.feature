@@ -56,3 +56,18 @@ Feature: Test multi player tic tac toe
       | 4      | 4   |
     When the game is played
     Then the player is expelled
+
+  Scenario: First player to complete three in a row wins
+    Given a board of size 5 x 5
+    And a player that makes the following moves
+      | column | row |
+      | 2      | 2   |
+      | 3      | 1   |
+      | 4      | 0   |
+    And a player that makes the following moves
+      | column | row |
+      | 1      | 2   |
+      | 1      | 1   |
+      | 1      | 0   |
+    When the game is played
+    Then the first player wins

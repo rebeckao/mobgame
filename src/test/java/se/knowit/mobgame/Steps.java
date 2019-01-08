@@ -12,6 +12,7 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static se.knowit.mobgame.PlayerStatus.EXPELLED;
 import static se.knowit.mobgame.PlayerStatus.WINNER;
@@ -57,5 +58,16 @@ public class Steps {
     @Then("^the player is expelled$")
     public void thePlayerIsExpelled() {
         assertEquals(EXPELLED, players.get(0).getStatus());
+    }
+
+    @Then("^the first player wins$")
+    public void the_first_player_wins() {
+        assertTrue("Game is not over", gameRunner.isGameWon());
+        assertEquals(WINNER, players.get(0).getStatus());
+        Player winner = players.get(0);
+        players.stream()
+                .filter(player -> !winner.equals(player))
+                .map(Player::getStatus)
+                .forEach(status -> assertNotEquals(WINNER, status));
     }
 }
