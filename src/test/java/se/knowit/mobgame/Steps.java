@@ -28,14 +28,6 @@ public class Steps {
         ticTacToeBoard = new TicTacToeBoard(BoardHeight.of(height), BoardWidth.of(width));
     }
 
-    @Given("^a player that makes the following move on row 5$")
-    public void aPlayerThatMakesTheFollowingMove(List<Integer> columnCoordinates) {
-        Queue<Position> positions = columnCoordinates.stream()
-                .map(columnCoordinate -> new Position(XCoordinate.of(columnCoordinate), YCoordinate.of(5)))
-                .collect(Collectors.toCollection(LinkedList::new));
-        players.add(new Player(new TestBot(positions), 1));
-    }
-
     @When("^the game is played$")
     public void theGameIsPlayed() {
         gameRunner = new GameRunner(ticTacToeBoard, players);
