@@ -45,10 +45,20 @@ public class TicTacToeBoard implements Board {
         return s.toString();
     }
 
-    private boolean isInsideBoard(Position position){
+    private boolean isInsideBoard(Position position) {
         return position.getX().getValue() < this.rawBoard[0].length
                 && position.getY().getValue() < this.rawBoard.length
                 && position.getY().getValue() >= 0
                 && position.getX().getValue() >= 0;
+    }
+
+    boolean isFull() {
+        for (int[] row : rawBoard) {
+            for (int cell : row) {
+                if (cell == 0)
+                    return false;
+            }
+        }
+        return true;
     }
 }

@@ -14,7 +14,7 @@ class GameRunner {
     private List<Player> players;
     private int winCondition;
     private TicTacToeBoard board;
-    private boolean gameIsWon;
+    private boolean gameIsOver;
 
     GameRunner(TicTacToeBoard board, List<Player> players, int winCondition) {
         this.board = board;
@@ -23,14 +23,14 @@ class GameRunner {
     }
 
     void run() {
-        while (!this.gameIsWon && hasPlayersLeft()) {
+        while (!this.gameIsOver && hasPlayersLeft()) {
             playOneTurn();
         }
     }
 
     private void playOneTurn() {
         for (Player player : players) {
-            if (this.gameIsWon) break;
+            if (this.gameIsOver) break;
             makeAMove(player);
         }
     }
@@ -46,13 +46,16 @@ class GameRunner {
         boolean isValid = board.isMoveValid(position);
         if (isValid) {
             board.update(position, player.getPlayerId());
-            gameIsWon = gameIsWon(position, player);
-            if (gameIsWon) {
+            if (gameIsWon(position, player)) {
+                gameIsOver = true;
                 player.setStatus(WINNER);
             }
         } else {
             log.warn("Player {} is status due to invalid move {}", player.getPlayerId(), position);
             player.setStatus(EXPELLED);
+        }
+        if (board.isFull()) {
+            gameIsOver = true;
         }
     }
 
@@ -84,6 +87,6 @@ class GameRunner {
     }
 
     boolean isGameOver() {
-        return gameIsWon;
+        return gameIsOver;
     }
 }
