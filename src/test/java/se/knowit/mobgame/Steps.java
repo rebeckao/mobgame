@@ -21,6 +21,7 @@ public class Steps {
     private GameRunner gameRunner;
     private List<Player> players = new ArrayList<>();
     private TicTacToeBoard ticTacToeBoard;
+    private int playerCounter = 1;
 
     @Given("^a board of size (\\d+) x (\\d+)$")
     public void aBoardOfSizeX(int width, int height) {
@@ -52,7 +53,7 @@ public class Steps {
         Queue<Position> positionsQueue = turnCoordinates.stream()
                 .map(coordinate -> new Position(XCoordinate.of(coordinate.getColumn()), YCoordinate.of(coordinate.getRow())))
                 .collect(Collectors.toCollection(LinkedList::new));
-        players.add(new Player(new TestBot(positionsQueue), 1));
+        players.add(new Player(new TestBot(positionsQueue), playerCounter++));
     }
 
     @Then("^the player is expelled$")
@@ -60,11 +61,11 @@ public class Steps {
         assertEquals(EXPELLED, players.get(0).getStatus());
     }
 
-    @Then("^the first player wins$")
-    public void the_first_player_wins() {
+    @Then("^player (\\d+) wins$")
+    public void thePlayerWithNumberWins(int playerNumber) {
         assertTrue("Game is not over", gameRunner.isGameWon());
-        assertEquals(WINNER, players.get(0).getStatus());
-        Player winner = players.get(0);
+        assertEquals(WINNER, players.get(playerNumber - 1).getStatus());
+        Player winner = players.get(playerNumber - 1);
         players.stream()
                 .filter(player -> !winner.equals(player))
                 .map(Player::getStatus)
