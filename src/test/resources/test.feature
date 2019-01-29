@@ -86,3 +86,23 @@ Feature: Test multi player tic tac toe
       | 1      | 4   |
     When the game is played
     Then player 2 wins
+
+  Scenario: Small board
+    Given a board of size 2 x 2
+    And a player that makes the following moves
+      | column | row |
+      | 0      | 1   |
+      | 0      | 0   |
+      | 0      | 2   |
+    When the game is played
+    Then the player is expelled
+
+  Scenario: Big board
+    Given a board of size 10 x 10
+    And a player that makes the following moves
+      | column | row |
+      | 7      | 9   |
+      | 8      | 9   |
+      | 9      | 9   |
+    When the game is played
+    Then player 1 wins
