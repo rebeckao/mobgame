@@ -38,7 +38,7 @@ public class Steps {
 
     @Then("^the player wins$")
     public void thePlayerWins() {
-        assertTrue("Game is not over", gameRunner.isGameWon());
+        assertTrue("Game is not over", gameRunner.isGameOver());
         assertEquals(WINNER,players.get(0).getStatus());
     }
 
@@ -57,7 +57,7 @@ public class Steps {
 
     @Then("^player (\\d+) wins$")
     public void thePlayerWithNumberWins(int playerNumber) {
-        assertTrue("Game is not over", gameRunner.isGameWon());
+        assertTrue("Game is not over", gameRunner.isGameOver());
         assertEquals(WINNER, players.get(playerNumber - 1).getStatus());
         Player winner = players.get(playerNumber - 1);
         players.stream()
@@ -69,5 +69,13 @@ public class Steps {
     @And("^win condition is (\\d+) in a row$")
     public void winConditionIsInARow(int winCondition) {
         this.winCondition = winCondition;
+    }
+
+    @Then("^no one wins$")
+    public void noOneWins() {
+        assertTrue("Game is not over", gameRunner.isGameOver());
+        players.stream()
+                .map(Player::getStatus)
+                .forEach(status -> assertNotEquals(WINNER, status));
     }
 }

@@ -178,3 +178,26 @@ Feature: Test multi player tic tac toe
       | 2      | 1   |
     When the game is played
     Then player 2 wins
+
+  Scenario: Board is filled and no one wins
+#      xoo
+#      oxx
+#      xxo
+    Given a board of size 3 x 3
+    And a player that makes the following moves
+      | column | row |
+      | 0      | 0   |
+      | 1      | 1   |
+      | 2      | 1   |
+      | 0      | 2   |
+      | 1      | 2   |
+    And a player that makes the following moves
+      | column | row |
+      | 1      | 0   |
+      | 2      | 2   |
+      | 0      | 1   |
+      | 2      | 0   |
+    When the game is played
+    Then no one wins
+
+

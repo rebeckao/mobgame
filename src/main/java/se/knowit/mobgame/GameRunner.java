@@ -83,7 +83,7 @@ class GameRunner {
         return connectedDots >= winCondition;
     }
 
-    boolean isGameWon() {
+    boolean isGameOver() {
         return gameIsWon;
     }
 }
