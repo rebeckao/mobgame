@@ -3,6 +3,7 @@ package se.knowit.mobgame;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.function.Function;
 
 import static se.knowit.mobgame.PlayerStatus.EXPELLED;
 import static se.knowit.mobgame.PlayerStatus.PLAYING;
@@ -11,12 +12,14 @@ import static se.knowit.mobgame.PlayerStatus.WINNER;
 @Slf4j
 class GameRunner {
     private List<Player> players;
+    private int winCondition;
     private TicTacToeBoard board;
     private boolean gameIsWon;
 
-    GameRunner(TicTacToeBoard board, List<Player> players) {
+    GameRunner(TicTacToeBoard board, List<Player> players, int winCondition) {
         this.board = board;
         this.players = players;
+        this.winCondition = winCondition;
     }
 
     void run() {
@@ -56,95 +59,28 @@ class GameRunner {
     private boolean gameIsWon(Position position, Player player) {
         System.out.println(board);
         int playerId = player.getPlayerId();
-        return hasWonHorizontally(position, playerId)
-                || hasWonVertically(position, playerId)
-                || hasWonSlopingDiagonally(position, playerId)
-                || hasWonRisingDiagonally(position, playerId);
-
+        return hasWon(position, playerId, Position::toLeft, Position::toRight)
+                || hasWon(position, playerId, Position::below, Position::above)
+                || hasWon(position, playerId, p -> p.toLeft().above(), p -> p.toRight().below())
+                || hasWon(position, playerId, p -> p.toLeft().below(), p -> p.toRight().above());
     }
 
-    private boolean hasWonVertically(Position position, int playerId) {
-        Position above = position.above();
-        if (board.getValueAt(above) == playerId) {
-            Position aboveAbove = above.above();
-            if (board.getValueAt(aboveAbove) == playerId) {
-                return true;
-            }
-            Position below = position.below();
-            if (board.getValueAt(below) == playerId) {
-                return true;
-            }
+    private boolean hasWon(Position position, int playerId,
+                           Function<Position, Position> positiveOffset,
+                           Function<Position, Position> negativeOffset) {
+        int connectedDots = 1;
+        Position next = positiveOffset.apply(position);
+        while (board.getValueAt(next) == playerId) {
+            connectedDots++;
+            next = positiveOffset.apply(next);
         }
 
-        Position below = position.below();
-        if (board.getValueAt(below) == playerId) {
-            Position belowBelow = below.below();
-            return board.getValueAt(belowBelow) == playerId;
+        Position previous = negativeOffset.apply(position);
+        while (board.getValueAt(previous) == playerId) {
+            connectedDots++;
+            previous = negativeOffset.apply(previous);
         }
-        return false;
-    }
-
-    private boolean hasWonHorizontally(Position position, int playerId) {
-        Position left = position.toLeft();
-        if (board.getValueAt(left) == playerId) {
-            Position leftLeft = left.toLeft();
-            if (board.getValueAt(leftLeft) == playerId) {
-                return true;
-            }
-            Position right = position.toRight();
-            if (board.getValueAt(right) == playerId) {
-                return true;
-            }
-        }
-
-        Position right = position.toRight();
-        if (board.getValueAt(right) == playerId) {
-            Position rightRight = right.toRight();
-            return board.getValueAt(rightRight) == playerId;
-        }
-        return false;
-    }
-
-    private boolean hasWonSlopingDiagonally(Position position, int playerId) {
-        Position aboveLeft = position.toLeft().above();
-        if (board.getValueAt(aboveLeft) == playerId) {
-            Position aboveLeftAboveLeft = aboveLeft.toLeft().above();
-            if (board.getValueAt(aboveLeftAboveLeft) == playerId) {
-                return true;
-            }
-            Position belowRight = position.toRight().below();
-            if (board.getValueAt(belowRight) == playerId) {
-                return true;
-            }
-        }
-
-        Position belowRight = position.toRight().below();
-        if (board.getValueAt(belowRight) == playerId) {
-            Position belowRightBelowRight = belowRight.toRight().below();
-            return board.getValueAt(belowRightBelowRight) == playerId;
-        }
-        return false;
-    }
-
-    private boolean hasWonRisingDiagonally(Position position, int playerId) {
-        Position belowLeft = position.toLeft().below();
-        if (board.getValueAt(belowLeft) == playerId) {
-            Position belowLeftBelowLeft = belowLeft.toLeft().below();
-            if (board.getValueAt(belowLeftBelowLeft) == playerId) {
-                return true;
-            }
-            Position aboveRight = position.toRight().above();
-            if (board.getValueAt(aboveRight) == playerId) {
-                return true;
-            }
-        }
-
-        Position aboveRight = position.toRight().above();
-        if (board.getValueAt(aboveRight) == playerId) {
-            Position aboveRightAboveRight = aboveRight.toRight().above();
-            return board.getValueAt(aboveRightAboveRight) == playerId;
-        }
-        return false;
+        return connectedDots >= winCondition;
     }
 
     boolean isGameWon() {

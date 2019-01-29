@@ -31,8 +31,8 @@ public class Steps {
 
     @When("^the game is played$")
     public void theGameIsPlayed() {
-        TicTacToeBoard ticTacToeBoard = new TicTacToeBoard(BoardHeight.of(height), BoardWidth.of(width), winCondition);
-        gameRunner = new GameRunner(ticTacToeBoard, players);
+        TicTacToeBoard ticTacToeBoard = new TicTacToeBoard(BoardHeight.of(height), BoardWidth.of(width));
+        gameRunner = new GameRunner(ticTacToeBoard, players, winCondition);
         gameRunner.run();
     }
 
