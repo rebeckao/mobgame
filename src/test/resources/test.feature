@@ -106,3 +106,21 @@ Feature: Test multi player tic tac toe
       | 9      | 9   |
     When the game is played
     Then player 1 wins
+
+  Scenario: Needs 4 in a row to win but does not
+    Given a board of size 5 x 5
+    And win condition is 4 in a row
+    And a player that makes the following moves
+      | column | row |
+      | 0      | 0   |
+      | 0      | 1   |
+      | 0      | 2   |
+      | 4      | 4   |
+    And a player that makes the following moves
+      | column | row |
+      | 2      | 0   |
+      | 2      | 1   |
+      | 2      | 3   |
+      | 2      | 2   |
+    When the game is played
+    Then player 2 wins

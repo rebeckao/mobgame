@@ -11,25 +11,27 @@ import java.util.List;
 import java.util.Queue;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static se.knowit.mobgame.PlayerStatus.EXPELLED;
 import static se.knowit.mobgame.PlayerStatus.WINNER;
 
 public class Steps {
     private GameRunner gameRunner;
     private List<Player> players = new ArrayList<>();
-    private TicTacToeBoard ticTacToeBoard;
     private int playerCounter = 1;
+    private int winCondition = 3;
+    private int height;
+    private int width;
 
     @Given("^a board of size (\\d+) x (\\d+)$")
     public void aBoardOfSizeX(int width, int height) {
-        ticTacToeBoard = new TicTacToeBoard(BoardHeight.of(height), BoardWidth.of(width));
+        this.width = width;
+        this.height = height;
     }
 
     @When("^the game is played$")
     public void theGameIsPlayed() {
+        TicTacToeBoard ticTacToeBoard = new TicTacToeBoard(BoardHeight.of(height), BoardWidth.of(width), winCondition);
         gameRunner = new GameRunner(ticTacToeBoard, players);
         gameRunner.run();
     }
@@ -62,5 +64,10 @@ public class Steps {
                 .filter(player -> !winner.equals(player))
                 .map(Player::getStatus)
                 .forEach(status -> assertNotEquals(WINNER, status));
+    }
+
+    @And("^win condition is (\\d+) in a row$")
+    public void winConditionIsInARow(int winCondition) {
+        this.winCondition = winCondition;
     }
 }
