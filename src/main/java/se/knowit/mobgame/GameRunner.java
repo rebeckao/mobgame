@@ -14,7 +14,7 @@ class GameRunner {
     private TicTacToeBoard board;
     private boolean gameIsWon;
 
-    GameRunner(TicTacToeBoard board, List<Player> players)  {
+    GameRunner(TicTacToeBoard board, List<Player> players) {
         this.board = board;
         this.players = players;
     }
@@ -26,7 +26,10 @@ class GameRunner {
     }
 
     private void playOneTurn() {
-        players.forEach(this::makeAMove);
+        for (Player player : players) {
+            if (this.gameIsWon) break;
+            makeAMove(player);
+        }
     }
 
     private boolean hasPlayersLeft() {
@@ -50,7 +53,7 @@ class GameRunner {
         }
     }
 
-    private boolean gameIsWon(Position position, Player player){
+    private boolean gameIsWon(Position position, Player player) {
         System.out.println(board);
         int playerId = player.getPlayerId();
         return hasWonHorizontally(position, playerId)
