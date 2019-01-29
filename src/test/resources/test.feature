@@ -107,7 +107,7 @@ Feature: Test multi player tic tac toe
     When the game is played
     Then player 1 wins
 
-  Scenario: Needs 4 in a row to win but does not
+  Scenario: Needs 4 in a row to win vertically and 3 in a row does not
     Given a board of size 5 x 5
     And win condition is 4 in a row
     And a player that makes the following moves
@@ -122,5 +122,59 @@ Feature: Test multi player tic tac toe
       | 2      | 1   |
       | 2      | 3   |
       | 2      | 2   |
+    When the game is played
+    Then player 2 wins
+
+  Scenario: Needs 4 in a row to win horizontally and 3 in a row does not
+    Given a board of size 5 x 5
+    And win condition is 4 in a row
+    And a player that makes the following moves
+      | column | row |
+      | 0      | 0   |
+      | 0      | 1   |
+      | 0      | 2   |
+      | 4      | 4   |
+    And a player that makes the following moves
+      | column | row |
+      | 1      | 0   |
+      | 2      | 0   |
+      | 4      | 0   |
+      | 3      | 0   |
+    When the game is played
+    Then player 2 wins
+
+  Scenario: Needs 4 in a row to win diagonally rising and 3 in a row does not
+    Given a board of size 5 x 5
+    And win condition is 4 in a row
+    And a player that makes the following moves
+      | column | row |
+      | 1      | 0   |
+      | 2      | 1   |
+      | 3      | 2   |
+      | 4      | 4   |
+    And a player that makes the following moves
+      | column | row |
+      | 0      | 0   |
+      | 3      | 3   |
+      | 1      | 1   |
+      | 2      | 2   |
+    When the game is played
+    Then player 2 wins
+
+  Scenario: Needs 4 in a row to win diagonally sloping and 3 in a row does not
+    Given a board of size 5 x 5
+    And win condition is 4 in a row
+    And a player that makes the following moves
+      | column | row |
+      | 4      | 0   |
+      | 4      | 1   |
+      | 4      | 2   |
+      | 3      | 3   |
+    And a player that makes the following moves
+      | column | row |
+      | 0      | 3   |
+      | 1      | 2   |
+      | 3      | 0   |
+      | 2      | 1   |
     When the game is played
     Then player 2 wins
